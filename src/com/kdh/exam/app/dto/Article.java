@@ -1,15 +1,34 @@
 package com.kdh.exam.app.dto;
 
 public class Article {
-	public int id;
-	public String title;
-	public String body;
+	private int id;
+	private String regDate;
+	private String updateDate;
+	private String title;
+	private String body;
 	
 	@Override
 	public String toString() {
-		return "Article [id=" + id + ", title=" + title + ", body=" + body + "]";
+		return "Article [id=" + id + ", regDate=" + regDate + ", updateDate=" + updateDate + ", title=" + title
+				+ ", body=" + body + "]";
 	}
 	
+	public String getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
+
+	public String getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
+	}
+
 	public int getId() {
 		return id;
 	}
