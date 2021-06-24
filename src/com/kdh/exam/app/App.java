@@ -69,6 +69,52 @@ public class App {
 					System.out.println(article.getId() + " / " + article.getRegDate() + " / " + article.getTitle());
 				}
 			}
+			else if (command.startsWith("/usr/article/detail")) {
+				String queryStr = "";
+				try {
+					queryStr = command.split("\\?", 2)[1];
+				}
+				catch (ArrayIndexOutOfBoundsException e) {
+					System.out.println("쿼리를 입력해 주세요");
+					continue;
+				}
+				
+				String[] queryStrBits = queryStr.split("&");
+				int id = 0;
+				for (String queryStrBit : queryStrBits) {
+					String[] queryStrBitsBits = queryStrBit.split("=", 2);
+					String paramName = queryStrBitsBits[0];
+					String paramValue = queryStrBitsBits[1];
+					
+					if(paramName.equals("id")) {
+						id = Integer.parseInt(paramValue);
+					}
+				}
+				if (id == 0) {
+					System.out.println("id를 입력해주세요");
+					continue;
+				}
+				
+				Article foundArticle = null;
+				
+				for (Article article : articles) {
+					if(article.getId() == id) {
+						foundArticle = article;
+						break;
+					}
+				}
+				
+				if(foundArticle == null) {
+					System.out.println("존재하지 않는 게시물입니다.");
+					return;
+				}
+				
+				System.out.println("번호 : " + foundArticle.getId());
+				System.out.println("작성 날짜 : " + foundArticle.getRegDate());
+				System.out.println("수정 날짜 : " + foundArticle.getUpdateDate());
+				System.out.println("제목 : " + foundArticle.getTitle());
+				System.out.println("내용 : " + foundArticle.getBody());
+			}
 		}
 		System.out.println("== Java Text Board End ==");
 	}
