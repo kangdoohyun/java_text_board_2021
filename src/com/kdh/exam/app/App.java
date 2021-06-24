@@ -16,7 +16,21 @@ public class App {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		
+		for(int i = 0; i <= 10; i++) {
+			int id = ++articlesLastId;
+			String regDate = Util.getNowDateStr();
+			String updateDate = Util.getNowDateStr();
+			Article article = new Article();
+			
+			article.setId(id);
+			article.setRegDate(regDate);
+			article.setUpdateDate(updateDate);
+			article.setTitle("제목_" + id);
+			article.setBody("내용_" + id);
+			
+			articles.add(article);
+			articlesLastId = id;
+		}
 		while (true) {
 			System.out.print("명령어 : ");
 			String command = sc.nextLine().trim();
