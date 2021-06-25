@@ -7,12 +7,13 @@ import java.util.Scanner;
 import com.kdh.exam.app.dto.Article;
 import com.kdh.exam.util.Util;
 
-public class App {	
+public class App {
+	
+	static List<Article> articles = new ArrayList<>();
+	
 	public static void run() {
 		System.out.println("== Java Text Board Start ==");
 		int articlesLastId = 0;
-		
-		List<Article> articles = new ArrayList<>();
 		
 		Scanner sc = new Scanner(System.in);
 		
@@ -59,6 +60,7 @@ public class App {
 				article.setBody(body);
 				
 				articles.add(article);
+				
 				articlesLastId = id;
 				
 				System.out.println(id + "번 게시물이 생성되었습니다");
@@ -72,133 +74,57 @@ public class App {
 				}
 			}
 			else if (rq.getActionPath().equals("/usr/article/detail")) {
-				String queryStr = "";
-				try {
-					queryStr = command.split("\\?", 2)[1];
-				}
-				catch (ArrayIndexOutOfBoundsException e) {
-					System.out.println("쿼리를 입력해 주세요");
-					continue;
-				}
+				int id = rq.getIntParam("id", 0);
 				
-				String[] queryStrBits = queryStr.split("&");
-				int id = 0;
-				for (String queryStrBit : queryStrBits) {
-					String[] queryStrBitsBits = queryStrBit.split("=", 2);
-					String paramName = queryStrBitsBits[0];
-					String paramValue = queryStrBitsBits[1];
-					
-					if(paramName.equals("id")) {
-						id = Integer.parseInt(paramValue);
-					}
-				}
 				if (id == 0) {
 					System.out.println("id를 입력해주세요");
 					continue;
 				}
+				Article article = getArticleById(id);
 				
-				Article foundArticle = null;
-				
-				for (Article article : articles) {
-					if(article.getId() == id) {
-						foundArticle = article;
-						break;
-					}
-				}
-				
-				if(foundArticle == null) {
+				if(article == null) {
 					System.out.println("존재하지 않는 게시물입니다.");
-					return;
+					continue;
 				}
 				
-				System.out.println("번호 : " + foundArticle.getId());
-				System.out.println("작성 날짜 : " + foundArticle.getRegDate());
-				System.out.println("수정 날짜 : " + foundArticle.getUpdateDate());
-				System.out.println("제목 : " + foundArticle.getTitle());
-				System.out.println("내용 : " + foundArticle.getBody());
+				System.out.println("번호 : " + article.getId());
+				System.out.println("작성 날짜 : " + article.getRegDate());
+				System.out.println("수정 날짜 : " + article.getUpdateDate());
+				System.out.println("제목 : " + article.getTitle());
+				System.out.println("내용 : " + article.getBody());
 			}
 			else if(rq.getActionPath().equals("/usr/article/delete")) {
-				String queryStr = "";
-				try {
-					queryStr = command.split("\\?", 2)[1];
-				}
-				catch (ArrayIndexOutOfBoundsException e) {
-					System.out.println("쿼리를 입력해 주세요");
-					continue;
-				}
+				int id = rq.getIntParam("id", 0);
 				
-				String[] queryStrBits = queryStr.split("&");
-				int id = 0;
-				for (String queryStrBit : queryStrBits) {
-					String[] queryStrBitsBits = queryStrBit.split("=", 2);
-					String paramName = queryStrBitsBits[0];
-					String paramValue = queryStrBitsBits[1];
-					
-					if(paramName.equals("id")) {
-						id = Integer.parseInt(paramValue);
-					}
-				}
 				if (id == 0) {
 					System.out.println("id를 입력해주세요");
 					continue;
 				}
 				
-				Article foundArticle = null;
+				Article article = getArticleById(id);
 				
-				for (Article article : articles) {
-					if(article.getId() == id) {
-						foundArticle = article;
-						break;
-					}
-				}
-				
-				if(foundArticle == null) {
+				if(article == null) {
 					System.out.println("존재하지 않는 게시물입니다.");
-					return;
+					continue;
 				}
 				
-				articles.remove(foundArticle);
+				articles.remove(article);
 				
 				System.out.println(id + "번 게시물이 삭제되었습니다.");
 			}
 			else if(rq.getActionPath().equals("/usr/article/modify")) {
-				String queryStr = "";
-				try {
-					queryStr = command.split("\\?", 2)[1];
-				}
-				catch (ArrayIndexOutOfBoundsException e) {
-					System.out.println("쿼리를 입력해 주세요");
-					continue;
-				}
+				int id = rq.getIntParam("id", 0);
 				
-				String[] queryStrBits = queryStr.split("&");
-				int id = 0;
-				for (String queryStrBit : queryStrBits) {
-					String[] queryStrBitsBits = queryStrBit.split("=", 2);
-					String paramName = queryStrBitsBits[0];
-					String paramValue = queryStrBitsBits[1];
-					
-					if(paramName.equals("id")) {
-						id = Integer.parseInt(paramValue);
-					}
-				}
 				if (id == 0) {
 					System.out.println("id를 입력해주세요");
 					continue;
 				}
 				
-				Article foundArticle = null;
+				Article article = getArticleById(id);
 				
-				for (Article article : articles) {
-					if(article.getId() == id) {
-						foundArticle = article;
-						break;
-					}
-				}
-				
-				if(foundArticle == null) {
+				if(article == null) {
 					System.out.println("존재하지 않는 게시물입니다.");
-					return;
+					continue;
 				}
 				
 				System.out.print("제목 : ");
@@ -206,13 +132,22 @@ public class App {
 				System.out.print("내용 : ");
 				String body = sc.nextLine();
 				
-				foundArticle.setUpdateDate(Util.getNowDateStr());
-				foundArticle.setTitle(title);
-				foundArticle.setBody(body);
+				article.setUpdateDate(Util.getNowDateStr());
+				article.setTitle(title);
+				article.setBody(body);
 				
 				System.out.println(id + "번 게시물이 수정되었습니다.");
 			}
 		}
 		System.out.println("== Java Text Board End ==");
+	}
+
+	private static Article getArticleById(int id) {
+		for (Article article : articles) {
+			if(article.getId() == id) {
+				return article;
+			}
+		}
+		return null;
 	}
 }
