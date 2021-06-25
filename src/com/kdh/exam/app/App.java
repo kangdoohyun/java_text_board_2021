@@ -16,7 +16,7 @@ public class App {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		for(int i = 0; i <= 10; i++) {
+		for(int i = 0; i < 10; i++) {
 			int id = ++articlesLastId;
 			String regDate = Util.getNowDateStr();
 			String updateDate = Util.getNowDateStr();
@@ -35,11 +35,13 @@ public class App {
 			System.out.print("명령어 : ");
 			String command = sc.nextLine().trim();
 			
-			if(command.equals("/usr/system/exit")) {
+			Rq rq = new Rq(command);
+			
+			if(rq.getActionPath().equals("/usr/system/exit")) {
 				System.out.println("프로그램을 종료합니다.");
 				break;
 			}
-			else if(command.equals("/usr/article/write")) {
+			else if(rq.getActionPath().equals("/usr/article/write")) {
 				System.out.print("제목 : ");
 				String title = sc.nextLine().trim();
 				System.out.print("내용 : ");
@@ -61,7 +63,7 @@ public class App {
 				
 				System.out.println(id + "번 게시물이 생성되었습니다");
 			}
-			else if (command.equals("/usr/article/list")) {
+			else if (rq.getActionPath().equals("/usr/article/list")) {
 				System.out.println("번호 / 작성 날짜 / 제목");
 				
 				for (int i = articles.size() - 1; i >= 0; i--) {
@@ -69,7 +71,7 @@ public class App {
 					System.out.println(article.getId() + " / " + article.getRegDate() + " / " + article.getTitle());
 				}
 			}
-			else if (command.startsWith("/usr/article/detail")) {
+			else if (rq.getActionPath().equals("/usr/article/detail")) {
 				String queryStr = "";
 				try {
 					queryStr = command.split("\\?", 2)[1];
@@ -115,7 +117,7 @@ public class App {
 				System.out.println("제목 : " + foundArticle.getTitle());
 				System.out.println("내용 : " + foundArticle.getBody());
 			}
-			else if(command.startsWith("/usr/article/delete")) {
+			else if(rq.getActionPath().equals("/usr/article/delete")) {
 				String queryStr = "";
 				try {
 					queryStr = command.split("\\?", 2)[1];
@@ -159,7 +161,7 @@ public class App {
 				
 				System.out.println(id + "번 게시물이 삭제되었습니다.");
 			}
-			else if(command.startsWith("/usr/article/modify")) {
+			else if(rq.getActionPath().equals("/usr/article/modify")) {
 				String queryStr = "";
 				try {
 					queryStr = command.split("\\?", 2)[1];
