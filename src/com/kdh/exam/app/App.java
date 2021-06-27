@@ -19,17 +19,7 @@ public class App {
 		
 		for(int i = 0; i < 10; i++) {
 			int id = ++articlesLastId;
-			String regDate = Util.getNowDateStr();
-			String updateDate = Util.getNowDateStr();
-			Article article = new Article();
-			
-			article.setId(id);
-			article.setRegDate(regDate);
-			article.setUpdateDate(updateDate);
-			article.setTitle("제목_" + id);
-			article.setBody("내용_" + id);
-			
-			articles.add(article);
+			articles.add(new Article(id, Util.getNowDateStr(), Util.getNowDateStr(), "제목_" + id, "제목_" + id));
 			articlesLastId = id;
 		}
 		while (true) {
@@ -49,17 +39,8 @@ public class App {
 				String body = sc.nextLine().trim();
 				
 				int id = ++articlesLastId ;
-				String regDate = Util.getNowDateStr();
-				String updateDate = Util.getNowDateStr();
-				Article article = new Article();
 				
-				article.setId(id);
-				article.setRegDate(regDate);
-				article.setUpdateDate(updateDate);
-				article.setTitle(title);
-				article.setBody(body);
-				
-				articles.add(article);
+				articles.add(new Article(id, Util.getNowDateStr(), Util.getNowDateStr(), title, body));
 				
 				articlesLastId = id;
 				
