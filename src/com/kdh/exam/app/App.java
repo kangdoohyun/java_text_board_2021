@@ -4,6 +4,9 @@ import java.util.Scanner;
 
 import com.kdh.exam.app.container.Container;
 import com.kdh.exam.app.controller.UsrArticleController;
+import com.kdh.exam.app.controller.UsrMemberController;
+import com.kdh.exam.app.dto.Member;
+import com.kdh.exam.app.session.Session;
 
 public class App {
 	static Scanner sc;
@@ -15,10 +18,20 @@ public class App {
 	public void run() {
 		System.out.println("== Java Text Board Start ==");
 		
+		UsrMemberController usrMemberController = new UsrMemberController();
 		UsrArticleController usrArticleController = new UsrArticleController();
+		Session session = Container.getSession();
 		
 		while (true) {
-			System.out.print("명령어 : ");
+			Member loginedMember = (Member) session.getAttribute("loginedMember");
+			
+			String prompt = "명령어";
+			
+			if(loginedMember != null) {
+				prompt = loginedMember.getNickname();
+			}
+			System.out.print(prompt + " : ");
+			
 			String command = sc.nextLine().trim();
 			
 			Rq rq = new Rq(command);
@@ -29,11 +42,18 @@ public class App {
 			}
 			
 			if(rq.getControllerTypeCode().equals("usr")) {
-				usrArticleController.performAction(rq);
-			}
-			else if(rq.getActionPath().equals("/usr/system/exit")) {
-				System.out.println("프로그램을 종료합니다.");
-				break;
+				if(rq.getControllerName().equals("system")) {
+					if(rq.getActionMethodName().equals("exit")) {
+						System.out.println("프로그램을 종료합니다.");
+						break;
+					}
+				}
+				else if(rq.getControllerName().equals("article")) {
+					usrArticleController.performAction(rq);
+				}
+				else if(rq.getControllerName().equals("member")) {
+					usrMemberController.performAction(rq);
+				}
 			}
 		}
 		System.out.println("== Java Text Board End ==");

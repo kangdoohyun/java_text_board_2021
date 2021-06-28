@@ -1,0 +1,25 @@
+package com.kdh.exam.app.session;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Session {
+	private Map<String, Object> store;
+	
+	public Session() {
+		store = new HashMap<>();
+	}
+	
+	public void setAttribute(String key, Object value) {
+		store.put(key, value);
+	}
+	
+	public Object getAttribute(String key) {
+		return store.get(key);
+	}
+	
+	public void removeAttribute(String key) {
+		store.remove(key);
+	}
+
+}

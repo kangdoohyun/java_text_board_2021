@@ -3,6 +3,10 @@ package com.kdh.exam.app;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.kdh.exam.app.container.Container;
+import com.kdh.exam.app.dto.Member;
+import com.kdh.exam.app.session.Session;
+
 public class Rq {
 	private Map<String, String> params;
 	private String command;
@@ -64,6 +68,20 @@ public class Rq {
 
 	public String getControllerTypeCode() {
 		return controllerTypeName;
+	}
+
+	public String getControllerName() {
+		return controllerName;
+	}
+
+	public String getActionMethodName() {
+		return actionMethodName;
+	}
+
+	public void setSessionAttr(String key, Object value) {
+		Session session = Container.getSession();
+		
+		session.setAttribute(key, value);
 	}
 
 }
