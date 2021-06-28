@@ -5,7 +5,6 @@ import java.util.List;
 import com.kdh.exam.app.container.Container;
 import com.kdh.exam.app.dto.Member;
 import com.kdh.exam.app.repository.MemberRepository;
-import com.kdh.exam.util.Util;
 
 public class MemberService {
 	private MemberRepository memberRepository;

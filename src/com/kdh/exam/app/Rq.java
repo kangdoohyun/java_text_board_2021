@@ -52,7 +52,7 @@ public class Rq {
 
 	}
 
-	public Object getActionPath() {
+	public String getActionPath() {
 		return "/" + controllerTypeCode + "/" + controllerName + "/" + actionMethodName;
 	}
 

@@ -1,10 +1,15 @@
 package com.kdh.exam.app;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import com.kdh.exam.app.container.Container;
 import com.kdh.exam.app.controller.Controller;
 import com.kdh.exam.app.dto.Member;
+import com.kdh.exam.app.intercepter.Intercepter;
+import com.kdh.exam.app.intercepter.NeedLoginIntercepter;
+import com.kdh.exam.app.intercepter.NeedLogoutIntercepter;
 
 public class App {
 	static Scanner sc;
@@ -37,7 +42,9 @@ public class App {
 			}
 
 			Controller controller = getControllerByRequestUri(rq);
-
+			if(runIntercepters(rq) == false) {
+				continue;
+			}
 			controller.performAction(rq);
 
 			if (rq.getActionPath().equals("/usr/system/exit")) {
@@ -45,6 +52,20 @@ public class App {
 			}
 		}
 		System.out.println("== Java Text Board End ==");
+	}
+	
+	private boolean runIntercepters(Rq rq) {
+		List<Intercepter> intercepters = new ArrayList<>();
+		
+		intercepters.add(Container.getNeedLoginIntercepter());
+		intercepters.add(Container.getNeedLogoutIntercepter());
+		
+		for(Intercepter intercepter : intercepters) {
+			if(intercepter.run(rq) == false) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private Controller getControllerByRequestUri(Rq rq) {
