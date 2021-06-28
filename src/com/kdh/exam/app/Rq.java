@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.kdh.exam.app.container.Container;
+import com.kdh.exam.app.dto.Member;
 import com.kdh.exam.app.session.Session;
 
 public class Rq {
@@ -15,9 +16,11 @@ public class Rq {
 	private String queryString = "";
 	public boolean isValid = true;
 
-	public Rq(String command) {
-		this.command = command;
-		
+	public Rq() {
+
+	}
+
+	public void setCommand(String command) {
 		params = new HashMap<>();
 
 		String[] commandBits = command.split("\\?", 2);
@@ -31,7 +34,7 @@ public class Rq {
 				String[] queryStringBitBits = queryStringBit.split("=", 2);
 				String paramName = queryStringBitBits[0];
 				String paramValue = queryStringBitBits[1];
-				
+
 				params.put(paramName, paramValue);
 			}
 		}
@@ -46,6 +49,7 @@ public class Rq {
 		controllerTypeCode = commandBits[1];
 		controllerName = commandBits[2];
 		actionMethodName = commandBits[3];
+
 	}
 
 	public Object getActionPath() {
@@ -53,14 +57,13 @@ public class Rq {
 	}
 
 	public int getIntParam(String paramName, int defaultValue) {
-		if(params.containsKey(paramName) == false) {
+		if (params.containsKey(paramName) == false) {
 			return defaultValue;
 		}
-		
-		try  {
-			return Integer.parseInt(params.get(paramName));			
-		}
-		catch ( NumberFormatException e ) {
+
+		try {
+			return Integer.parseInt(params.get(paramName));
+		} catch (NumberFormatException e) {
 			return defaultValue;
 		}
 	}
@@ -79,20 +82,41 @@ public class Rq {
 
 	public void setSessionAttr(String key, Object value) {
 		Session session = Container.getSession();
-		
+
 		session.setAttribute(key, value);
 	}
 
 	public void removeSessionAttr(String key) {
 		Session session = Container.getSession();
-		
+
 		session.removeAttribute(key);
 	}
 
-	public boolean getSessionAttr(String key) {
+	public Object getSessionAttr(String key) {
 		Session session = Container.getSession();
-		
-		return session.ahsAttribute(key);
+
+		return session.getAttribute(key);
 	}
 
+	private boolean hasSessionAttr(String key) {
+		Session session = Container.getSession();
+
+		return session.hasAttribute(key);
+	}
+
+	public boolean isLogined() {
+		return hasSessionAttr("loginedMember"); 	
+	}
+
+	public Member getLoginedMember() {
+		return (Member)getSessionAttr("loginedMember");
+	}
+
+	public void logout() {
+		removeSessionAttr("loginedMember");
+	}
+
+	public void login(Member member) {
+		setSessionAttr("loginedMember", member);
+	}
 }

@@ -5,7 +5,6 @@ import java.util.Scanner;
 import com.kdh.exam.app.container.Container;
 import com.kdh.exam.app.controller.Controller;
 import com.kdh.exam.app.dto.Member;
-import com.kdh.exam.app.session.Session;
 
 public class App {
 	static Scanner sc;
@@ -17,21 +16,20 @@ public class App {
 	public void run() {
 		System.out.println("== Java Text Board Start ==");
 
-		Session session = Container.getSession();
-
 		while (true) {
-			Member loginedMember = (Member) session.getAttribute("loginedMember");
-
 			String prompt = "명령어";
-
-			if (loginedMember != null) {
+			
+			Rq rq = new Rq();
+			
+			if (rq.isLogined()) {
+				Member loginedMember = rq.getLoginedMember();
 				prompt = loginedMember.getNickname();
 			}
 			System.out.print(prompt + " : ");
 
 			String command = sc.nextLine().trim();
 
-			Rq rq = new Rq(command);
+			rq.setCommand(command);
 
 			if (rq.isValid == false) {
 				System.out.println("명령어가 올바르지 않습니다.");

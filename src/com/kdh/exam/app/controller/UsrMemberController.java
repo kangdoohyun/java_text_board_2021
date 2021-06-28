@@ -42,8 +42,8 @@ public class UsrMemberController extends Controller {
 
 
 	private void actionLogout(Rq rq) {
-		if(rq.getSessionAttr("loginedMember")) {
-			rq.removeSessionAttr("loginedMember");
+		if(rq.isLogined()) {
+			rq.logout();
 			System.out.println("로그아웃 되었습니다.");
 			return;
 		}
@@ -76,7 +76,7 @@ public class UsrMemberController extends Controller {
 			return;
 		}
 		
-		rq.setSessionAttr("loginedMember", member);
+		rq.login(member);
 		
 		System.out.println(member.getNickname() + "님 환영합니다.");
 	}
