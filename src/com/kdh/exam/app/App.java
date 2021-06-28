@@ -3,7 +3,7 @@ package com.kdh.exam.app;
 import java.util.Scanner;
 
 import com.kdh.exam.app.container.Container;
-import com.kdh.exam.controller.UsrArticleController;
+import com.kdh.exam.app.controller.UsrArticleController;
 
 public class App {
 	static Scanner sc;
