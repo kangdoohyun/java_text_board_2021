@@ -6,7 +6,9 @@ import com.kdh.exam.app.controller.UsrArticleController;
 import com.kdh.exam.app.controller.UsrMemberController;
 import com.kdh.exam.app.controller.UsrSystemController;
 import com.kdh.exam.app.repository.ArticleRepository;
+import com.kdh.exam.app.repository.MemberRepository;
 import com.kdh.exam.app.service.ArticleService;
+import com.kdh.exam.app.service.MemberService;
 import com.kdh.exam.app.session.Session;
 
 import lombok.Getter;
@@ -24,6 +26,11 @@ public class Container {
 	@Getter
 	private static UsrArticleController usrArticleController;
 	
+	
+	@Getter
+	private static MemberService memberService;
+	@Getter
+	private static MemberRepository memberRepository;
 	@Getter
 	private static ArticleService articleService;
 	@Getter
@@ -32,6 +39,9 @@ public class Container {
 	static {
 		sc = new Scanner(System.in);
 		session = new Session();
+		
+		memberRepository = new MemberRepository();
+		memberService = new MemberService();
 		
 		articleRepository = new ArticleRepository();
 		articleService = new ArticleService();
