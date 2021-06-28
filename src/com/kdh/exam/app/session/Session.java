@@ -22,4 +22,8 @@ public class Session {
 		store.remove(key);
 	}
 
+	public boolean ahsAttribute(String key) {
+		return store.containsKey(key);
+	}
+
 }

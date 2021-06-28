@@ -35,8 +35,20 @@ public class UsrMemberController {
 		if (rq.getActionPath().equals("/usr/member/login")) {
 			actionLogin(rq);
 		}
+		else if(rq.getActionPath().equals("/usr/member/logout")) {
+			actionLogout(rq);
+		}
 	}
 
+
+	private void actionLogout(Rq rq) {
+		if(rq.getSessionAttr("loginedMember")) {
+			rq.removeSessionAttr("loginedMember");
+			System.out.println("로그아웃 되었습니다.");
+			return;
+		}
+		System.out.println("로그인 후 이용해주세요.");
+	}
 
 	private void actionLogin(Rq rq) {
 		System.out.print("아이디 : ");
