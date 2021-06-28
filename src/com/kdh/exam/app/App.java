@@ -8,30 +8,42 @@ import com.kdh.exam.app.dto.Article;
 import com.kdh.exam.util.Util;
 
 public class App {
+	List<Article> articles;
+	Scanner sc;
+	int articlesLastId;
 	
-	static List<Article> articles = new ArrayList<>();
+	App() {
+		articles = new ArrayList<>();
+		sc = new Scanner(System.in);
+		articlesLastId = 0;
+	}
 	
-	public static void run() {
+	public void run() {
 		System.out.println("== Java Text Board Start ==");
-		int articlesLastId = 0;
 		
-		Scanner sc = new Scanner(System.in);
 		
 		for(int i = 0; i < 10; i++) {
 			int id = ++articlesLastId;
 			articles.add(new Article(id, Util.getNowDateStr(), Util.getNowDateStr(), "제목_" + id, "제목_" + id));
 			articlesLastId = id;
 		}
+		
 		while (true) {
 			System.out.print("명령어 : ");
 			String command = sc.nextLine().trim();
 			
 			Rq rq = new Rq(command);
 			
+			if(rq.isValid == false) {
+				System.out.println("명령어가 올바르지 않습니다.");
+				continue;
+			}
+			
 			if(rq.getActionPath().equals("/usr/system/exit")) {
 				System.out.println("프로그램을 종료합니다.");
 				break;
 			}
+			
 			else if(rq.getActionPath().equals("/usr/article/write")) {
 				System.out.print("제목 : ");
 				String title = sc.nextLine().trim();
@@ -123,7 +135,7 @@ public class App {
 		System.out.println("== Java Text Board End ==");
 	}
 
-	private static Article getArticleById(int id) {
+	private Article getArticleById(int id) {
 		for (Article article : articles) {
 			if(article.getId() == id) {
 				return article;
