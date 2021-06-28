@@ -6,11 +6,10 @@ import java.util.Scanner;
 
 import com.kdh.exam.app.Rq;
 import com.kdh.exam.app.container.Container;
-import com.kdh.exam.app.dto.Article;
 import com.kdh.exam.app.dto.Member;
 import com.kdh.exam.util.Util;
 
-public class UsrMemberController {
+public class UsrMemberController extends Controller {
 	private List<Member> members;
 	private int membersLastId;
 	private Scanner sc;
@@ -30,7 +29,8 @@ public class UsrMemberController {
 			membersLastId = id;
 		}
 	}
-
+	
+	@Override
 	public void performAction(Rq rq) {
 		if (rq.getActionPath().equals("/usr/member/login")) {
 			actionLogin(rq);

@@ -4,13 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.kdh.exam.app.container.Container;
-import com.kdh.exam.app.dto.Member;
 import com.kdh.exam.app.session.Session;
 
 public class Rq {
 	private Map<String, String> params;
 	private String command;
-	private String controllerTypeName;
+	private String controllerTypeCode;
 	private String controllerName;
 	private String actionMethodName;
 	private String queryString = "";
@@ -44,13 +43,13 @@ public class Rq {
 			return;
 		}
 
-		controllerTypeName = commandBits[1];
+		controllerTypeCode = commandBits[1];
 		controllerName = commandBits[2];
 		actionMethodName = commandBits[3];
 	}
 
 	public Object getActionPath() {
-		return "/" + controllerTypeName + "/" + controllerName + "/" + actionMethodName;
+		return "/" + controllerTypeCode + "/" + controllerName + "/" + actionMethodName;
 	}
 
 	public int getIntParam(String paramName, int defaultValue) {
@@ -67,7 +66,7 @@ public class Rq {
 	}
 
 	public String getControllerTypeCode() {
-		return controllerTypeName;
+		return controllerTypeCode;
 	}
 
 	public String getControllerName() {

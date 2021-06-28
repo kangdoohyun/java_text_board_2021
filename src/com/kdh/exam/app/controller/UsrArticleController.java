@@ -9,7 +9,7 @@ import com.kdh.exam.app.container.Container;
 import com.kdh.exam.app.dto.Article;
 import com.kdh.exam.util.Util;
 
-public class UsrArticleController {
+public class UsrArticleController extends Controller{
 	private List<Article> articles;
 	private int articlesLastId;
 	private Scanner sc;
@@ -29,7 +29,8 @@ public class UsrArticleController {
 			articlesLastId = id;
 		}
 	}
-
+	
+	@Override
 	public void performAction(Rq rq) {
 		if (rq.getActionPath().equals("/usr/article/write")) {
 			actionWrite(rq);
