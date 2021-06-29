@@ -10,6 +10,7 @@ import com.kdh.exam.app.dto.Member;
 import com.kdh.exam.app.intercepter.Intercepter;
 import com.kdh.exam.app.intercepter.NeedLoginIntercepter;
 import com.kdh.exam.app.intercepter.NeedLogoutIntercepter;
+import com.kdh.exam.app.service.MemberService;
 
 public class App {
 	static Scanner sc;
@@ -20,7 +21,7 @@ public class App {
 
 	public void run() {
 		System.out.println("== Java Text Board Start ==");
-
+		forTestLoginByMemberId(1);
 		while (true) {
 			String prompt = "명령어";
 			
@@ -54,6 +55,11 @@ public class App {
 		System.out.println("== Java Text Board End ==");
 	}
 	
+	private void forTestLoginByMemberId(int id) {
+		Member member = Container.getMemberService().getMemberById(id);
+		new Rq().login(member);		
+	}
+
 	private boolean runIntercepters(Rq rq) {
 		List<Intercepter> intercepters = new ArrayList<>();
 		

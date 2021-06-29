@@ -13,8 +13,8 @@ public class ArticleService {
 		articleRepository = Container.getArticleRepository();
 	}
 
-	public int write(String title, String body) {
-		return articleRepository.write(title, body);
+	public int write(int boardId, int memberId, String title, String body) {
+		return articleRepository.write(boardId, memberId, title, body);
 	}
 
 	public Article getArticleById(int id) {
@@ -30,9 +30,13 @@ public class ArticleService {
 	}
 
 	public void makeTestData() {
-		for (int i = 0; i < 10; i++) {
-			write("제목_" + (i + 1), "제목_" + (i + 1));
+		for (int i = 0; i < 100; i++) {
+			write(i % 2 + 1, i % 2 + 1, "제목_" + (i + 1), "제목_" + (i + 1));
 		}
+	}
+
+	public List<Article> getFilteredArticles(int boardId, int page, int itemsInAPage, String searchKeyword) {
+		return articleRepository.getFilteredArticles(boardId, page, itemsInAPage, searchKeyword);
 	}
 
 }

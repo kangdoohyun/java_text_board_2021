@@ -15,10 +15,10 @@ public class ArticleRepository {
 		lastId = 0;
 	}
 
-	public int write(String title, String body) {
+	public int write(int boardId, int memberId, String title, String body) {
 		int id = ++lastId;
 
-		articles.add(new Article(id, Util.getNowDateStr(), Util.getNowDateStr(), title, body));
+		articles.add(new Article(id, Util.getNowDateStr(), Util.getNowDateStr(), boardId, memberId, title, body));
 
 		lastId = id;
 
@@ -44,6 +44,64 @@ public class ArticleRepository {
 		if (article != null) {
 			articles.remove(article);
 		}
+	}
+
+	public List<Article> getFilteredArticles(int boardId, int page, int itemsInAPage, String searchKeyword) {
+		List<Article> filteredArticles1 = getBoardIdFilteredArticles(articles, boardId);
+		List<Article> filteredArticles2 = getSearchKeywordFilteredArticles(filteredArticles1, searchKeyword);
+		List<Article> filteredArticles3 = getPageFilteredArticles(filteredArticles2, page, itemsInAPage);
+		return filteredArticles3;
+	}
+
+	private List<Article> getSearchKeywordFilteredArticles(List<Article> articles, String searchKeyword) {
+		if(searchKeyword.length() == 0) {
+			return articles;
+		}
+		
+		List<Article> filteredArticles = new ArrayList<>();
+		
+		for(Article article : articles) {
+			if(article.getTitle().contains(searchKeyword)) {
+				filteredArticles.add(article);
+			}
+		}
+		
+		return filteredArticles;
+	}
+
+	private List<Article> getPageFilteredArticles(List<Article> articles, int page, int itemsInAPage) {
+		List<Article> filteredArticles = new ArrayList<>();
+		
+		int jumpArticlesIndex = (page - 1) * itemsInAPage;
+		int startIndex = articles.size() - jumpArticlesIndex - 1;
+		System.out.println(startIndex);
+		int endIndex = startIndex - itemsInAPage + 1;
+		System.out.println(endIndex);
+		
+		if(endIndex < 0) {
+			endIndex = 0;
+		}
+		
+		for(int start = startIndex; start >= endIndex; start--) {
+			filteredArticles.add(articles.get(start));
+		}
+		
+		return filteredArticles;
+	}
+
+	private List<Article> getBoardIdFilteredArticles(List<Article> articles, int boardId) {
+		if(boardId == 0) {
+			return articles;
+		}
+		
+		List<Article> filteredArticles = new ArrayList<>();
+		
+		for(Article article : articles) {
+			if(article.getBoardId() == boardId) {
+				filteredArticles.add(article);
+			}
+		}
+		return filteredArticles;
 	}
 
 }

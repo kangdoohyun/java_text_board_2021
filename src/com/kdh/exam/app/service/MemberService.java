@@ -30,4 +30,9 @@ public class MemberService {
 			join("user" + (i + 1), "user" + (i + 1), "user" + (i + 1), "user" + (i + 1), "user" + (i + 1), "user" + (i + 1));
 		}
 	}
+
+	public Member getMemberById(int id) {
+		return memberRepository.getMemberById(id);
+	}
+
 }

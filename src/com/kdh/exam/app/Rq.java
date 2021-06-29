@@ -119,4 +119,16 @@ public class Rq {
 	public void login(Member member) {
 		setSessionAttr("loginedMember", member);
 	}
+
+	public int getLoginedMemberId() {
+		return getLoginedMember().getId();
+	}
+
+	public String getStrParam(String paramName, String defaultValue) {
+		if (params.containsKey(paramName) == false) {
+			return defaultValue;
+		}
+
+		return params.get(paramName);
+	}
 }

@@ -8,8 +8,10 @@ import com.kdh.exam.app.controller.UsrSystemController;
 import com.kdh.exam.app.intercepter.NeedLoginIntercepter;
 import com.kdh.exam.app.intercepter.NeedLogoutIntercepter;
 import com.kdh.exam.app.repository.ArticleRepository;
+import com.kdh.exam.app.repository.BoardRepository;
 import com.kdh.exam.app.repository.MemberRepository;
 import com.kdh.exam.app.service.ArticleService;
+import com.kdh.exam.app.service.BoardService;
 import com.kdh.exam.app.service.MemberService;
 import com.kdh.exam.app.session.Session;
 
@@ -21,6 +23,10 @@ public class Container {
 	@Getter
 	private static Session session;
 	
+	@Getter
+	private static BoardService boardService;
+	@Getter
+	private static BoardRepository boardRepository;
 	@Getter
 	private static MemberService memberService;
 	@Getter
@@ -45,6 +51,9 @@ public class Container {
 	static {
 		sc = new Scanner(System.in);
 		session = new Session();
+		
+		boardRepository = new BoardRepository();
+		boardService = new BoardService();
 		
 		memberRepository = new MemberRepository();
 		memberService = new MemberService();
